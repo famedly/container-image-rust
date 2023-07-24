@@ -1,0 +1,16 @@
+---
+name: Docker
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+
+jobs:
+  docker:
+    uses: famedly/github-workflows/.github/workflows/docker.yml@docker-v1
+    with:
+      push: ${{ github.event_name != 'pull_request' }} # Always build, don't publish on pull requests
+      image_name: famedly/rust
+    secrets: inherit
