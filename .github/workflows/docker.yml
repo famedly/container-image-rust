@@ -8,9 +8,16 @@ on:
   pull_request:
 
 jobs:
-  docker:
+  docker-ghcrio:
     uses: famedly/github-workflows/.github/workflows/docker.yml@docker-v1
     with:
       push: ${{ github.event_name != 'pull_request' }} # Always build, don't publish on pull requests
-      image_name: famedly/rust
-    secrets: inherit
+      registry: "ghcr.io"
+      image_name: famedly/container-image-rust/rust
+  docker-nexus:
+    uses: famedly/github-workflows/.github/workflows/docker.yml@docker-v1
+    with:
+      push: ${{ github.event_name != 'pull_request' }} # Always build, don't publish on pull requests
+      registry: "docker-oss.nexus.famedly.de"
+      registry_user: "famedly-ci"
+      image_name: "rust"
